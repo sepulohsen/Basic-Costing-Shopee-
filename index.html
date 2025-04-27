@@ -7,128 +7,129 @@
     <title>Basic Costing Shopee Calculator</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: Arial, sans-serif;
             background-color: #f9f9f9;
-            text-align: center;
             padding: 20px;
+            margin: 0;
         }
         .container {
-            background: white;
-            border-radius: 10px;
-            padding: 30px;
-            max-width: 480px;
+            max-width: 520px;
+            background-color: #fff;
             margin: 0 auto;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
         }
         h2 {
+            text-align: center;
             margin-bottom: 25px;
         }
         label {
             display: block;
-            text-align: left;
             margin-top: 15px;
             font-weight: bold;
         }
-        input {
+        input[type="number"] {
             width: 100%;
             padding: 10px;
             margin-top: 5px;
-            border-radius: 5px;
             border: 1px solid #ccc;
+            border-radius: 6px;
         }
         button {
             margin-top: 25px;
-            padding: 12px 20px;
+            padding: 12px;
+            width: 100%;
             background-color: #28a745;
             color: white;
             border: none;
-            width: 100%;
+            border-radius: 6px;
+            cursor: pointer;
             font-size: 16px;
-            border-radius: 5px;
         }
         .result {
-            margin-top: 20px;
-            text-align: left;
+            margin-top: 25px;
+            font-size: 15px;
         }
-        .footer {
-            margin-top: 40px;
+        footer {
+            max-width: 520px;
+            margin: 50px auto;
             font-size: 14px;
-            color: #444;
-            text-align: left;
+            color: #333;
+            background: none;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>📊 Basic Costing Shopee Calculator</h2>
-
+        <h2>🧮 Basic Costing Shopee Calculator</h2>
         <label>Harga Jualan (RM):</label>
-        <input type="number" id="price" step="0.01">
+        <input type="number" id="price" value="24.90" step="0.01">
 
         <label>COGS (RM):</label>
-        <input type="number" id="cogs" step="0.01">
+        <input type="number" id="cogs" value="5.11" step="0.01">
 
         <label>Shipping Fee (RM):</label>
-        <input type="number" id="shipping" step="0.01">
+        <input type="number" id="shipping" value="4.90" step="0.01">
 
         <label>Transaction Fee (%):</label>
-        <input type="number" id="transactionFee" step="0.01" value="3.78">
+        <input type="number" id="transactionFee" value="3.78" step="0.01">
 
         <label>Service Fee (%):</label>
-        <input type="number" id="serviceFee" step="0.01" value="4.86">
+        <input type="number" id="serviceFee" value="4.86" step="0.01">
 
         <label>Commission Fee (%):</label>
-        <input type="number" id="commissionFee" step="0.01" value="7.02">
+        <input type="number" id="commissionFee" value="7.02" step="0.01">
+
+        <label>Total Shopee Fee (%):</label>
+        <input type="number" id="totalFee" value="15.66" step="0.01" disabled>
 
         <button onclick="calculate()">Kira Sekarang</button>
 
-        <div class="result" id="output"></div>
+        <div class="result" id="result"></div>
     </div>
 
-    <div class="footer">
+    <footer>
+        <hr>
         <p><strong>Nota:</strong> Kalkulator ini membolehkan anda menyemak untung rugi serta BE ROAS & ACOS berdasarkan harga jualan, COGS dan pecahan yuran semasa Shopee.</p>
-        <p>Shopee Fee (NutraCat Shop):</p>
-        <ul>
-            <li>Transaction Fee: 3.78% × (Harga Jualan + Shipping Fee Dibayar Pelanggan)</li>
-            <li>Service Fee: 4.86% × Harga Jualan</li>
-            <li>Commission Fee: 7.02% × Harga Jualan</li>
-        </ul>
+        <p>Shopee Fee (NutraCat Shop):<br>
+        - Transaction Fee: 3.78% × (Harga Jualan + Shipping Fee Dibayar Pelanggan)<br>
+        - Service Fee: 4.86% × Harga Jualan<br>
+        - Commission Fee: 7.02% × Harga Jualan</p>
         <p>Rujukan: 
             <a href="https://seller.shopee.com.my/edu/article/16038" target="_blank">Transaction Fee</a>, 
             <a href="https://seller.shopee.com.my/edu/article/1094" target="_blank">Service Fee</a>, 
             <a href="https://seller.shopee.com.my/edu/article/6799" target="_blank">Commission Fee</a>
         </p>
-        <p>🛠️ Dibangunkan oleh <strong>Zaim</strong> | NutraCat • 2025</p>
-    </div>
+        <p>🛠 Dibangunkan oleh <strong>Zaim</strong> | NutraCat • 2025</p>
+    </footer>
 
     <script>
         function calculate() {
-            const price = parseFloat(document.getElementById("price").value);
-            const cogs = parseFloat(document.getElementById("cogs").value);
-            const shipping = parseFloat(document.getElementById("shipping").value);
-            const tf = parseFloat(document.getElementById("transactionFee").value);
-            const sf = parseFloat(document.getElementById("serviceFee").value);
-            const cf = parseFloat(document.getElementById("commissionFee").value);
+            let price = parseFloat(document.getElementById("price").value);
+            let cogs = parseFloat(document.getElementById("cogs").value);
+            let shipping = parseFloat(document.getElementById("shipping").value);
+            let transaction = parseFloat(document.getElementById("transactionFee").value);
+            let service = parseFloat(document.getElementById("serviceFee").value);
+            let commission = parseFloat(document.getElementById("commissionFee").value);
 
-            const revenue = price;
-            const transactionFeeRM = ((price + shipping) * tf) / 100;
-            const serviceFeeRM = (price * sf) / 100;
-            const commissionFeeRM = (price * cf) / 100;
-            const totalShopeeFee = transactionFeeRM + serviceFeeRM + commissionFeeRM;
+            let netRevenue = price;
+            let totalFee = transaction * (price + shipping) / 100 + service * price / 100 + commission * price / 100;
+            let profit = netRevenue - totalFee - cogs;
+            let profitMargin = (profit / netRevenue) * 100;
 
-            const profit = revenue - totalShopeeFee - cogs;
-            const profitMargin = (profit / revenue) * 100;
-            const beROAS = revenue / (profit + totalShopeeFee + cogs);
-            const beACOS = (1 / beROAS) * 100;
-            const targetROAS = beROAS * 3;
+            let beRoas = netRevenue / profit;
+            let beAcos = (totalFee + cogs) / netRevenue * 100;
+            let targetRoas = beRoas * 3;
 
-            document.getElementById("output").innerHTML = `
-                <p><strong>Profit (RM):</strong> RM ${profit.toFixed(2)}</p>
-                <p><strong>Profit Margin:</strong> ${profitMargin.toFixed(2)}%</p>
-                <p><strong>Break-Even ROAS:</strong> ${beROAS.toFixed(2)}</p>
-                <p><strong>Break-Even ACOS:</strong> ${beACOS.toFixed(2)}%</p>
-                <p><strong>Target ROAS (×3 BE):</strong> ${targetROAS.toFixed(2)}</p>
-            `;
+            document.getElementById("totalFee").value = (transaction + service + commission).toFixed(2);
+
+            document.getElementById("result").innerHTML =
+                `<strong>Profit (RM):</strong> RM ${profit.toFixed(2)}<br>
+                 <strong>Profit Margin:</strong> ${profitMargin.toFixed(2)}%<br>
+                 <strong>Break-Even ROAS:</strong> ${beRoas.toFixed(2)}<br>
+                 <strong>Break-Even ACOS:</strong> ${beAcos.toFixed(2)}%<br>
+                 <strong>Target ROAS (×3 BE):</strong> ${targetRoas.toFixed(2)}`;
         }
     </script>
 </body>
