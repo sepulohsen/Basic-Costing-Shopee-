@@ -2,153 +2,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basic Costing Shopee Calculator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f9f9f9;
-            padding: 20px;
-            text-align: center;
-        }
-        .container {
-            max-width: 480px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-        }
-        h2 {
-            margin-bottom: 25px;
-            color: #333;
-        }
-        label {
-            display: block;
-            margin-top: 15px;
-            font-weight: 600;
-            text-align: left;
-        }
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-        }
-        button {
-            margin-top: 25px;
-            padding: 12px 25px;
-            font-size: 16px;
-            background-color: #30B34B;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            width: 100%;
-        }
-        .result {
-            margin-top: 30px;
-            text-align: left;
-        }
-        .result p {
-            margin: 6px 0;
-        }
-        #actionButtons button {
-            margin: 10px auto;
-            display: block;
-            width: 100%;
-        }
-        footer {
-            margin-top: 50px;
-            font-size: 14px;
-            color: #555;
-            text-align: left;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Basic Costing Shopee Calculator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #28a745;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 5px;
+      width: 100%;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .result {
+      margin-top: 20px;
+      text-align: left;
+    }
+    .btn-secondary {
+      background-color: #007bff;
+      margin-top: 10px;
+    }
+    .btn-grey {
+      background-color: #6c757d;
+    }
+    footer {
+      margin-top: 40px;
+      font-size: 14px;
+      text-align: left;
+      color: #555;
+      padding: 10px;
+    }
+    footer a {
+      color: #007bff;
+      text-decoration: none;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h2>🧮 Basic Costing Shopee Calculator</h2>
+  <div class="container">
+    <h2>📊 Basic Costing Shopee Calculator</h2>
+    <input type="number" id="harga" placeholder="Harga Jualan (RM)" step="0.01" />
+    <input type="number" id="cogs" placeholder="COGS (RM)" step="0.01" />
+    <input type="number" id="shipping" placeholder="Shipping Fee (RM)" step="0.01" />
+    <button onclick="kira()">Kira Sekarang</button>
+    <div class="result" id="output"></div>
+    <button class="btn-secondary" onclick="salin()">📋 Salin Keputusan</button>
+    <button class="btn-grey" onclick="window.print()">🖨️ Cetak / Simpan PDF</button>
+  </div>
+  <footer>
+    <p><strong>Nota:</strong> Calculator ini membolehkan anda menyemak untung rugi serta BE ROAS & ACOS berdasarkan harga jualan, COGS dan pecahan yuran semasa Shopee.</p>
+    <p><strong>Shopee Fee</strong> (NutraCat Shop):<br>
+    - Transaction Fee: 3.78% × (Harga Jualan + Shipping Fee Dibayar Pelanggan)<br>
+    - Service Fee: 4.86% × Harga Jualan<br>
+    - Commission Fee: 7.02% × Harga Jualan</p>
+    <p><strong>Rujukan:</strong>
+      <a href="https://seller.shopee.com.my/edu/article/16038" target="_blank">Transaction Fee</a>,
+      <a href="https://seller.shopee.com.my/edu/article/1094" target="_blank">Service Fee</a>,
+      <a href="https://seller.shopee.com.my/edu/article/6799" target="_blank">Commission Fee</a>
+    </p>
+    <p>🛠️ Dibangunkan oleh <strong>Zaim</strong> | NutraCat • 2025</p>
+  </footer>
 
-        <label for="harga">Harga Jualan (RM):</label>
-        <input type="number" id="harga" step="0.01">
+  <script>
+    function kira() {
+      const harga = parseFloat(document.getElementById("harga").value);
+      const cogs = parseFloat(document.getElementById("cogs").value);
+      const shipping = parseFloat(document.getElementById("shipping").value);
 
-        <label for="cogs">COGS (RM):</label>
-        <input type="number" id="cogs" step="0.01">
+      if (!harga || !cogs || !shipping) {
+        document.getElementById("output").innerHTML = "<p style='color:red;'>Sila isi semua maklumat dengan lengkap.</p>";
+        return;
+      }
 
-        <label for="shipping">Shipping Fee (RM):</label>
-        <input type="number" id="shipping" step="0.01">
+      const transaksi = 0.0378 * (harga + shipping);
+      const servis = 0.0486 * harga;
+      const komisen = 0.0702 * harga;
+      const jumlahFee = transaksi + servis + komisen;
 
-        <button onclick="calculate()">Kira Sekarang</button>
+      const profit = harga - cogs - jumlahFee;
+      const margin = (profit / harga) * 100;
+      const beRoas = (cogs + jumlahFee) / harga;
+      const beAcos = ((cogs + jumlahFee) / harga) * 100;
+      const targetRoas = beRoas * 3;
 
-        <div class="result" id="output"></div>
+      document.getElementById("output").innerHTML = `
+        <p><strong>Profit (RM):</strong> RM ${profit.toFixed(2)}</p>
+        <p><strong>Profit Margin:</strong> ${margin.toFixed(2)}%</p>
+        <p><strong>Break-Even ROAS:</strong> ${beRoas.toFixed(2)}</p>
+        <p><strong>Break-Even ACOS:</strong> ${beAcos.toFixed(2)}%</p>
+        <p><strong>Target ROAS (×3 BE):</strong> ${targetRoas.toFixed(2)}</p>
+      `;
+    }
 
-        <div id="actionButtons" style="display:none; margin-top: 20px;">
-            <button onclick="copyResults()" style="background:#007bff; color:white;">📋 Salin Keputusan</button>
-            <button onclick="window.print()" style="background:#6c757d; color:white;">📄 Cetak / Simpan PDF</button>
-        </div>
-    </div>
-
-    <footer>
-        <div class="container" style="background: transparent; box-shadow: none;">
-            <hr>
-            <p><strong>Nota:</strong> Calculator ini membolehkan anda menyemak untung rugi serta BE ROAS & ACOS berdasarkan harga jualan, COGS dan pecahan yuran semasa Shopee.</p>
-            <p>Shopee Fee (NutraCat Shop):<br>
-            - Transaction Fee: 3.78% × (Harga Jualan + Shipping Fee Dibayar Pelanggan)<br>
-            - Service Fee: 4.86% × Harga Jualan<br>
-            - Commission Fee: 7.02% × Harga Jualan</p>
-            <p>Rujukan:
-            <a href="https://seller.shopee.com.my/edu/article/16038" target="_blank">Transaction Fee</a>,
-            <a href="https://seller.shopee.com.my/edu/article/1094" target="_blank">Service Fee</a>,
-            <a href="https://seller.shopee.com.my/edu/article/6799" target="_blank">Commission Fee</a>
-            </p>
-            <p style="margin-top: 20px;">🛠️ Dibangunkan oleh <strong>Zaim</strong> | NutraCat • 2025</p>
-        </div>
-    </footer>
-
-    <script>
-        function calculate() {
-            const harga = parseFloat(document.getElementById("harga").value);
-            const cogs = parseFloat(document.getElementById("cogs").value);
-            const shipping = parseFloat(document.getElementById("shipping").value);
-
-            if (!harga || !cogs || shipping === null || shipping === "") {
-                document.getElementById("output").innerHTML = "<p style='color:red'>Sila isi semua ruangan.</p>";
-                return;
-            }
-
-            const totalRevenue = harga;
-            const transactionFee = 0.0378 * (harga + shipping);
-            const serviceFee = 0.0486 * harga;
-            const commissionFee = 0.0702 * harga;
-            const totalShopeeFee = transactionFee + serviceFee + commissionFee;
-
-            const profit = harga - totalShopeeFee - cogs;
-            const profitMargin = (profit / harga) * 100;
-
-            const beROAS = harga / (profit + totalShopeeFee);
-            const beACOS = (totalShopeeFee + cogs) / harga * 100;
-            const targetROAS = beROAS * 3;
-
-            document.getElementById("output").innerHTML = `
-                <p><strong>Profit (RM):</strong> RM ${profit.toFixed(2)}</p>
-                <p><strong>Profit Margin:</strong> ${profitMargin.toFixed(2)}%</p>
-                <p><strong>Break-Even ROAS:</strong> ${beROAS.toFixed(2)}</p>
-                <p><strong>Break-Even ACOS:</strong> ${beACOS.toFixed(2)}%</p>
-                <p><strong>Target ROAS (×3 BE):</strong> ${targetROAS.toFixed(2)}</p>
-            `;
-            document.getElementById("actionButtons").style.display = "block";
-        }
-
-        function copyResults() {
-            const outputText = document.getElementById("output").innerText;
-            navigator.clipboard.writeText(outputText)
-                .then(() => alert("Keputusan telah disalin!"))
-                .catch(err => alert("Gagal salin: " + err));
-        }
-    </script>
+    function salin() {
+      const resultText = document.getElementById("output").innerText;
+      navigator.clipboard.writeText(resultText)
+        .then(() => alert("Keputusan telah disalin!"));
+    }
+  </script>
 </body>
 </html>
