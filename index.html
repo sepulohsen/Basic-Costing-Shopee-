@@ -2,135 +2,158 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basic Costing Shopee Calculator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            padding: 20px;
-            margin: 0;
-        }
-        .container {
-            max-width: 520px;
-            background-color: #fff;
-            margin: 0 auto;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-        }
-        h2 {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-        label {
-            display: block;
-            margin-top: 15px;
-            font-weight: bold;
-        }
-        input[type="number"] {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-        }
-        button {
-            margin-top: 25px;
-            padding: 12px;
-            width: 100%;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        .result {
-            margin-top: 25px;
-            font-size: 15px;
-        }
-        footer {
-            max-width: 520px;
-            margin: 50px auto;
-            font-size: 14px;
-            color: #333;
-            background: none;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Basic Costing Shopee Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f9f9f9;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #333;
+    }
+    label {
+      display: block;
+      text-align: left;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 25px;
+      font-size: 16px;
+      background-color: #30B34B;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+    }
+    .secondary-button {
+      background-color: #6c757d;
+    }
+    .result {
+      text-align: left;
+      margin-top: 25px;
+    }
+    footer {
+      margin-top: 40px;
+      font-size: 14px;
+      color: #555;
+      text-align: left;
+    }
+    .footer-links a {
+      color: #007bff;
+      text-decoration: none;
+      margin-right: 10px;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h2>🧮 Basic Costing Shopee Calculator</h2>
-        <label>Harga Jualan (RM):</label>
-        <input type="number" id="price" value="24.90" step="0.01">
+  <div class="container">
+    <h2>🧮 Basic Costing Shopee Calculator</h2>
 
-        <label>COGS (RM):</label>
-        <input type="number" id="cogs" value="5.11" step="0.01">
+    <label for="price">Harga Jualan (RM):</label>
+    <input type="number" id="price" step="0.01"/>
 
-        <label>Shipping Fee (RM):</label>
-        <input type="number" id="shipping" value="4.90" step="0.01">
+    <label for="cogs">COGS (RM):</label>
+    <input type="number" id="cogs" step="0.01"/>
 
-        <label>Transaction Fee (%):</label>
-        <input type="number" id="transactionFee" value="3.78" step="0.01">
+    <label for="shipping">Shipping Fee (RM):</label>
+    <input type="number" id="shipping" step="0.01"/>
 
-        <label>Service Fee (%):</label>
-        <input type="number" id="serviceFee" value="4.86" step="0.01">
+    <label for="transaction">Transaction Fee (%):</label>
+    <input type="number" id="transaction" step="0.01" value="3.78"/>
 
-        <label>Commission Fee (%):</label>
-        <input type="number" id="commissionFee" value="7.02" step="0.01">
+    <label for="service">Service Fee (%):</label>
+    <input type="number" id="service" step="0.01" value="4.86"/>
 
-        <label>Total Shopee Fee (%):</label>
-        <input type="number" id="totalFee" value="15.66" step="0.01" disabled>
+    <label for="commission">Commission Fee (%):</label>
+    <input type="number" id="commission" step="0.01" value="7.02"/>
 
-        <button onclick="calculate()">Kira Sekarang</button>
+    <button onclick="calculate()">Kira Sekarang</button>
+    <button class="secondary-button" onclick="clearInputs()">Kosongkan Data</button>
 
-        <div class="result" id="result"></div>
+    <div class="result" id="output"></div>
+  </div>
+
+  <footer>
+    <div class="container" style="background: transparent; box-shadow: none;">
+      <hr/>
+      <p><strong>Nota:</strong> Kalkulator ini membolehkan anda menyemak untung rugi serta BE ROAS & ACOS berdasarkan harga jualan, COGS dan pecahan yuran semasa Shopee.</p>
+      <p>Shopee Fee (NutraCat Shop):</p>
+      <ul style="text-align:left;">
+        <li>Transaction Fee: 3.78% × (Harga Jualan + Shipping Fee Dibayar Pelanggan)</li>
+        <li>Service Fee: 4.86% × Harga Jualan</li>
+        <li>Commission Fee: 7.02% × Harga Jualan</li>
+      </ul>
+      <p class="footer-links">Rujukan: 
+        <a href="https://seller.shopee.com.my/edu/article/16038" target="_blank">Transaction Fee</a>
+        <a href="https://seller.shopee.com.my/edu/article/1094" target="_blank">Service Fee</a>
+        <a href="https://seller.shopee.com.my/edu/article/6799" target="_blank">Commission Fee</a>
+      </p>
+      <p>🛠️ Dibangunkan oleh <strong>Zaim</strong> | NutraCat • 2025</p>
     </div>
+  </footer>
 
-    <footer>
-        <hr>
-        <p><strong>Nota:</strong> Kalkulator ini membolehkan anda menyemak untung rugi serta BE ROAS & ACOS berdasarkan harga jualan, COGS dan pecahan yuran semasa Shopee.</p>
-        <p>Shopee Fee (NutraCat Shop):<br>
-        - Transaction Fee: 3.78% × (Harga Jualan + Shipping Fee Dibayar Pelanggan)<br>
-        - Service Fee: 4.86% × Harga Jualan<br>
-        - Commission Fee: 7.02% × Harga Jualan</p>
-        <p>Rujukan: 
-            <a href="https://seller.shopee.com.my/edu/article/16038" target="_blank">Transaction Fee</a>, 
-            <a href="https://seller.shopee.com.my/edu/article/1094" target="_blank">Service Fee</a>, 
-            <a href="https://seller.shopee.com.my/edu/article/6799" target="_blank">Commission Fee</a>
-        </p>
-        <p>🛠 Dibangunkan oleh <strong>Zaim</strong> | NutraCat • 2025</p>
-    </footer>
+  <script>
+    function calculate() {
+      const price = parseFloat(document.getElementById("price").value);
+      const cogs = parseFloat(document.getElementById("cogs").value);
+      const shipping = parseFloat(document.getElementById("shipping").value);
+      const transaction = parseFloat(document.getElementById("transaction").value);
+      const service = parseFloat(document.getElementById("service").value);
+      const commission = parseFloat(document.getElementById("commission").value);
 
-    <script>
-        function calculate() {
-            let price = parseFloat(document.getElementById("price").value);
-            let cogs = parseFloat(document.getElementById("cogs").value);
-            let shipping = parseFloat(document.getElementById("shipping").value);
-            let transaction = parseFloat(document.getElementById("transactionFee").value);
-            let service = parseFloat(document.getElementById("serviceFee").value);
-            let commission = parseFloat(document.getElementById("commissionFee").value);
+      if (isNaN(price) || isNaN(cogs) || isNaN(shipping) || isNaN(transaction) || isNaN(service) || isNaN(commission)) {
+        document.getElementById("output").innerHTML = "<p style='color:red;'>Sila isi semua ruangan.</p>";
+        return;
+      }
 
-            let netRevenue = price;
-            let totalFee = transaction * (price + shipping) / 100 + service * price / 100 + commission * price / 100;
-            let profit = netRevenue - totalFee - cogs;
-            let profitMargin = (profit / netRevenue) * 100;
+      const transactionCost = ((price + shipping) * transaction) / 100;
+      const serviceCost = (price * service) / 100;
+      const commissionCost = (price * commission) / 100;
+      const totalShopeeFee = transactionCost + serviceCost + commissionCost;
 
-            let beRoas = netRevenue / profit;
-            let beAcos = (totalFee + cogs) / netRevenue * 100;
-            let targetRoas = beRoas * 3;
+      const profit = price - cogs - totalShopeeFee;
+      const margin = (profit / price) * 100;
+      const beRoas = price / profit;
+      const beAcos = (profit / price) * 100;
+      const targetRoas = beRoas * 3;
 
-            document.getElementById("totalFee").value = (transaction + service + commission).toFixed(2);
+      document.getElementById("output").innerHTML = `
+        <p><strong>Profit (RM):</strong> RM ${profit.toFixed(2)}</p>
+        <p><strong>Profit Margin:</strong> ${margin.toFixed(2)}%</p>
+        <p><strong>Break-Even ROAS:</strong> ${beRoas.toFixed(2)}</p>
+        <p><strong>Break-Even ACOS:</strong> ${beAcos.toFixed(2)}%</p>
+        <p><strong>Target ROAS (×3 BE):</strong> ${targetRoas.toFixed(2)}</p>
+      `;
+    }
 
-            document.getElementById("result").innerHTML =
-                `<strong>Profit (RM):</strong> RM ${profit.toFixed(2)}<br>
-                 <strong>Profit Margin:</strong> ${profitMargin.toFixed(2)}%<br>
-                 <strong>Break-Even ROAS:</strong> ${beRoas.toFixed(2)}<br>
-                 <strong>Break-Even ACOS:</strong> ${beAcos.toFixed(2)}%<br>
-                 <strong>Target ROAS (×3 BE):</strong> ${targetRoas.toFixed(2)}`;
-        }
-    </script>
+    function clearInputs() {
+      const fields = ["price", "cogs", "shipping", "transaction", "service", "commission"];
+      fields.forEach(id => document.getElementById(id).value = "");
+      document.getElementById("output").innerHTML = "";
+    }
+  </script>
 </body>
 </html>
